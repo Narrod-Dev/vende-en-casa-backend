@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn }
- from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column,
+    CreateDateColumn } from 'typeorm';
 
 @Entity('ratings')
 export class Rating {
@@ -9,7 +8,7 @@ export class Rating {
 
     @Column()
     reviewer_id: number;
-
+    
     @Column()
     reviewee_id: number;
 
