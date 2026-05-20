@@ -1,1 +1,1 @@
-export class MessageDto {}
+export class CreateMessageDto {}

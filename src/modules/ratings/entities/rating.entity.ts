@@ -1,6 +1,9 @@
-import { Column, CreateDateColumn, Entity, 
-    PrimaryGeneratedColumn } from "typeorm";
-
+import { 
+    Column, 
+    CreateDateColumn, 
+    Entity, 
+    PrimaryGeneratedColumn 
+} from "typeorm";
 
 @Entity ('Ratings')
 export class Rating {
@@ -24,5 +27,4 @@ export class Rating {
 
     @CreateDateColumn({type: 'timestamp'})
     created_at: Date;
-
 }
