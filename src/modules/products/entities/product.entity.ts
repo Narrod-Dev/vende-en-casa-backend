@@ -1,10 +1,12 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Category } from '../../categories/entities/category.entity';
 
 @Entity('products')
 export class Product {
@@ -32,15 +34,17 @@ export class Product {
   @Column({ type: 'varchar', length: 50, default: 'Available' })
   status: string;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
+  @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   created_at: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
+  @Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
   updated_at: Date;
+
+  @ManyToOne( () => User, { eager: true })
+  @JoinColumn({ name: 'seller_id'})
+  user: User;
+
+  @ManyToOne( () => Category, { eager: true})
+  @JoinColumn({ name: 'category_id'})
+  category: Category;
 }
