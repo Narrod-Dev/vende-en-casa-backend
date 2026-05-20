@@ -2,8 +2,12 @@ import {
     Column, 
     CreateDateColumn, 
     Entity, 
+    JoinColumn, 
+    ManyToOne, 
     PrimaryGeneratedColumn 
 } from "typeorm";
+import { User } from "../../users/entities/user.entity";
+import { Product } from "../../products/entities/product.entity";
 
 @Entity ('Ratings')
 export class Rating {
@@ -27,4 +31,16 @@ export class Rating {
 
     @CreateDateColumn({type: 'timestamp'})
     created_at: Date;
+
+    @ManyToOne( () => User, { eager: true })
+    @JoinColumn({ name: 'reviewer_id' })
+    reviewer: User;
+
+    @ManyToOne( () => User, { eager:true })
+    @JoinColumn({ name: 'reviewee_id' })
+    reviewee: User;
+
+    @ManyToOne( () => Product, { eager: true })
+    @JoinColumn({ name: 'product_id' })
+    product: Product;
 }

@@ -1,8 +1,11 @@
 import {
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Product } from './product.entity';
 
 @Entity('product_images')
 export class ProductImage {
@@ -17,4 +20,8 @@ export class ProductImage {
 
   @Column({ type: 'boolean', default: false })
   is_main: boolean;
+
+  @ManyToOne( () => Product, { eager: true })
+  @JoinColumn({ name: 'product_id'})
+  product: Product;
 }
