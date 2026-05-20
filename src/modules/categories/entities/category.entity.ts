@@ -7,11 +7,11 @@ import {
 @Entity("categories")
 export class Category {
     @PrimaryGeneratedColumn('increment', { type: 'int4' })
-    id!: number;
+    id: number;
 
     @Column({ type: 'varchar', length: 255, unique: true })
-    name!: string;
+    name: string;
 
     @Column({ type: 'text' })
-    description!: string;
+    description: string;
 }
