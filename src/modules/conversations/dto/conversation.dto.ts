@@ -1,31 +1,27 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
-  IsBoolean,
-  IsDateString,
   IsInt,
   IsNotEmpty,
-  IsOptional,
   IsPositive,
-  IsString,
 } from 'class-validator';
 
-export class CreateMessageDto {
+export class CreateConversationDto {
   @IsInt()
   @IsPositive()
   @IsNotEmpty()
   @ApiProperty()
-  conversation_id: number;
+  product_id: number;
 
   @IsInt()
   @IsPositive()
   @IsNotEmpty()
   @ApiProperty()
-  sender_id: number;
+  buyer_id: number;
 
-  @IsString()
+  @IsInt()
+  @IsPositive()
   @IsNotEmpty()
   @ApiProperty()
-  content: string;
+  seller_id: number;
 }
-
-export class UpdateMessageDto extends PartialType(CreateMessageDto) {}
+export class UpdateConversationDto extends PartialType(CreateConversationDto) {}

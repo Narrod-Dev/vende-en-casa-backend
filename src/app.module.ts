@@ -7,6 +7,7 @@ import { CategoriesModule } from './modules/categories/categories.module';
 import { RatingsModule } from './modules/ratings/ratings.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConversationsModule } from './modules/conversations/conversations.module';
 
 @Module({
   imports: [
@@ -28,6 +29,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true
     }),
+
+    ConversationsModule,
   ],
   controllers: [UsersController],
   providers: [],
