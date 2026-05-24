@@ -8,6 +8,7 @@ import { RatingsModule } from './modules/ratings/ratings.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConversationsModule } from './modules/conversations/conversations.module';
+import { ProductImagesModule } from './modules/product-images/product-images.module';
 
 @Module({
   imports: [
@@ -31,6 +32,8 @@ import { ConversationsModule } from './modules/conversations/conversations.modul
     }),
 
     ConversationsModule,
+
+    ProductImagesModule,
   ],
   controllers: [UsersController],
   providers: [],

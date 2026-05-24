@@ -5,9 +5,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Product } from './product.entity';
+import { Product } from '../../products/entities/product.entity';
 
-@Entity('product_images')
+@Entity('product-images')
 export class ProductImage {
   @PrimaryGeneratedColumn('increment', { type: 'int4' })
   id: number;
