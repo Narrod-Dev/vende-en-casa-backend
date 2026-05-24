@@ -30,10 +30,10 @@ export class Message {
   is_read: boolean;
 
   @ManyToOne(() => Conversation, { eager: true })
-  @JoinColumn({ name: 'conversation_id' })
+  @JoinColumn({ name: 'conversation_id', referencedColumnName: 'id' })
   conversation: Conversation;
 
   @ManyToOne(() => User, { eager: true })
-  @JoinColumn({ name: 'sender_id' })
+  @JoinColumn({ name: 'sender_id', referencedColumnName: 'id' })
   sender: User;
 }

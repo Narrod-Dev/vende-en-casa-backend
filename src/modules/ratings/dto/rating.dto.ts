@@ -7,8 +7,6 @@ import {
     IsString } 
     from "class-validator";
 
-
-
 export class CreateRatingDto{
     @IsInt()
     @IsPositive()
@@ -38,13 +36,6 @@ export class CreateRatingDto{
     @IsOptional()
     @ApiProperty()
     comment: string;
-
-    @IsString()
-    @IsOptional()
-    @ApiProperty()
-    created_at: string;
-
 }
 
-export class UpdateRatingDto extends 
-PartialType(CreateRatingDto){}
+export class UpdateRatingDto extends PartialType(CreateRatingDto){}
