@@ -29,7 +29,7 @@ export class Rating {
     @Column({type: 'text', nullable: true})
     comment: string;
 
-    @CreateDateColumn({type: 'timestamp'})
+    @CreateDateColumn({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     created_at: Date;
 
     @ManyToOne( () => User, { eager: true })

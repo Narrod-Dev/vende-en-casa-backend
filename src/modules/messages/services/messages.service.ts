@@ -19,23 +19,23 @@ export class MessagesService {
     try {
       const message = this.messageRepository.create(createMessageDto);
       await this.messageRepository.save(message);
-
       return message;
     } catch (error) {
-      console.log(error);
+      console.error(error); // Cambiado a console.error para mejores prácticas de logs
       throw new InternalServerErrorException('Error al crear el mensaje');
     }
   }
 
   async findAll(): Promise<Message[]> {
-    return await this.messageRepository.find({});
+    return await this.messageRepository.find();
   }
 
   async findOne(id: number): Promise<Message> {
+    // Quitamos 'relations' explícito ya que se maneja por el 'eager: true' de la entidad
     const message = await this.messageRepository.findOne({
       where: { id },
-      relations: ['conversation', 'sender'],
     });
+    
     if (!message) {
       throw new NotFoundException(`Mensaje con id ${id} no encontrado`);
     }
@@ -47,7 +47,11 @@ export class MessagesService {
     updateMessageDto: UpdateMessageDto
   ): Promise<Message> {
     const message = await this.findOne(id);
-    Object.assign(message, updateMessageDto);
+    
+    // Desestructuramos para ignorar los IDs y solo permitir editar content e is_read
+    const { conversation_id, sender_id, ...dataToUpdate } = updateMessageDto;
+    
+    Object.assign(message, dataToUpdate);
     return await this.messageRepository.save(message);
   }
 

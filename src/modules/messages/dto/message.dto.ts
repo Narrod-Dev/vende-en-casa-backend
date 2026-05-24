@@ -1,7 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import {
   IsBoolean,
-  IsDateString,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -28,4 +27,9 @@ export class CreateMessageDto {
   content: string;
 }
 
-export class UpdateMessageDto extends PartialType(CreateMessageDto) {}
+export class UpdateMessageDto extends PartialType(CreateMessageDto) {
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty({ required: false, default: false })
+  is_read?: boolean;
+}
