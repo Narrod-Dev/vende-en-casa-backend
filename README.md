@@ -1,98 +1,261 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# vende-en-casa-backend
+##  Descripción
+Backend desarrollado con NestJS para la plataforma VendeEnCasa, enfocada en la venta de artículos de segunda mano.
+---
+##  Tecnologías Utilizadas
+- NestJS
+- Node.js
+- PostgreSQL
+- TypeORM
+- Swagger
+- TypeScript
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
-```
-
-## Compile and run the project
+---
+## Requisitos Previos
+Antes de iniciar el proyecto, instalar lo siguiente:
+-	Node.js 
+-	NVM 
+-	NestJS CLI 
+-	PostgreSQL 
+## Verificar versiones
+` nvm -v`
+`node -v`
+`nest -v`
+## Instalar versión de Node recomendada
+`nvm install 24.14.1`
+`nvm use 24.14.1`
+## Instalar Nest CLI
+npm install -g @nestjs/cli
+## Creación del Proyecto
+Crear el proyecto:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+nest new vende-en-casa-backend
 ```
 
-## Run tests
+Seleccionar:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Ingresar al proyecto:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+cd vende-en-casa-backend
+```
+Iniciar el servidor:
+
+```bash
+npm run start:dev
+```
+Abrir en Visual Studio Code:
+
+```bash
+code .
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
+## Estructura del Proyecto
 
-## Resources
+``` 
+src/
+├── modules/
+│ ├── categories/
+│ ├── conversations/
+│ ├── messages/
+│ ├── product-images/
+│ ├── products/
+│ ├── ratings/
+│ └── users/
+│
+├── app.module.ts
+└── main.ts
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Módulos del Proyecto
 
-## Support
+| Módulo | Descripción |
+|--------|-------------|
+| users | Gestión de usuarios |
+| products | Gestión de productos publicados |
+| product-images | Manejo de imágenes de productos |
+| categories | Categorías de productos |
+| ratings | Sistema de valoraciones |
+| conversations | Conversaciones entre usuarios |
+| messages | Mensajes de chat |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## Generación de Módulos y Archivos
+> La siguiente estructura utiliza el módulo `users` como ejemplo base para la creación de módulos dentro del proyecto.
+Crear módulo
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+nest g module modules/users
+```
+ Crear controlador
 
-## License
+```bash
+nest g controller modules/users/controllers/users --flat
+```
+Crear servicio
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+nest g service modules/users/services/users --flat --no-spec
+```
+ Crear DTO
+
+```bash
+nest g class modules/users/dto/user.dto --flat --no-spec
+```
+Crear carpeta entities manualmente
+
+```bash
+mkdir src/modules/users/entities
+```
+Crear archivo entity
+
+```bash
+touch src/modules/users/entities/user.entity.ts
+```
+
+## Instalación de Dependencias
+### Mapped Types
+```bash
+npm i @nestjs/mapped-types
+```
+### Swagger
+```bash
+npm install @nestjs/swagger swagger-ui-express
+```
+## variables de entorno
+```
+npm add @nestjs/config
+```
+> TypeORM y PostgreSQL
+```bash
+npm add @nestjs/typeorm typeorm
+```
+## Configuración de Swagger
+ En main.ts agregar:
+```ts
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api/v1');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    })
+  )
+  const config = new DocumentBuilder()
+  .setTitle('API de VendeEnCasa')
+  .setDescription('API para la venta de objetos de segunda mano en VendeEnCasa')
+  .setVersion('1.0')
+  .build();
+
+  const documnt = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, documnt);
+  await app.listen(process.env.PORT ?? 3000);
+}
+```
+> Luego acceder a Swagger desde:
+http://localhost:3000/api/docs
+
+## Configuración de Base de Datos
+### Archivo .env.template
+```env.template
+DB_NAME=vendeencasadb
+DB_USERNAME=
+DB_PASSWORD=
+DB_HOST=
+DB_PORT=
+```
+### Archivo .env
+```env
+DB_NAME=vendeencasadb
+DB_USERNAME=Tu_Usuario
+DB_PASSWORD=Tu_Contraseña
+DB_HOST=localhost
+DB_PORT=5432
+```
+## Configuración TypeORM
+En app.module.ts:
+```ts
+@Module({
+  imports: [
+    UsersModule,
+    ProductsModule,
+    MessagesModule,
+    CategoriesModule,
+    RatingsModule,
+
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+    ConversationsModule,
+    ProductImagesModule,
+  ],
+  controllers: [UsersController],
+  providers: [],
+})
+export class AppModule {}
+```
+## Entity user
+```ts
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn
+} from 'typeorm';
+@Entity('users')
+export class User {
+  @PrimaryGeneratedColumn('increment', { type: 'int4' })
+  id: number;
+  @Column({ type: 'varchar', length: 100 })
+  full_name: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  email: string;
+  @Column({ type: 'varchar', length: 255 })
+  password_hash: string;
+  @Column({ type: 'varchar', length: 100 })
+  location: string;
+  @Column({ type: 'varchar', length: 20 })
+  role: string;
+  @Column({ type: 'boolean', default: true })
+  is_active: boolean;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
+}
+```
+# Configuración Inicial del Proyecto
+## Project Setup
+1.	Clonar el proyecto 
+2.	Ejecutar: 
+```Bash
+npm install
+```
+3.	Clonar el archivo .env.template y renombrarlo a .env 
+4.	Editar el archivo .env 
+5.	Crear la base de datos 
+6.	Levantar la API: 
+```bash
+npm run start:dev
+```
+## Estado del Proyecto
+
+> Proyecto en desarrollo.
+
+---
