@@ -3,9 +3,13 @@ import { RatingsController } from './controllers/ratings.controller';
 import { RatingsService } from './services/ratings.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Rating } from './entities/rating.entity';
+// --- 1. NUEVO: Importamos la entidad de Conversation ---
+import { Conversation } from '../conversations/entities/conversation.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Rating])],
+  imports: [// --- 2. NUEVO: Agregamos Conversation al lado de Rating dentro del corchete ---
+    TypeOrmModule.forFeature([Rating, Conversation])
+  ],
   controllers: [RatingsController],
   providers: [RatingsService],
   exports: [TypeOrmModule, RatingsService]
