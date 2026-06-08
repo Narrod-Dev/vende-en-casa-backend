@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ConversationsService } from '../services/conversations.service';
 import {
@@ -25,26 +26,33 @@ export class ConversationsController {
     return this.conversationsService.create(createConversatonDto);
   }
 
-  @Get()
-  findAll() {
-    return this.conversationsService.findAll();
+  @Get('user/:userId')
+  findByUser(@Param('userId', ParseIntPipe) userId: number) {
+    return this.conversationsService.findByUser(userId);
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.conversationsService.findOne(id);
+  findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('user_id', ParseIntPipe) userId: number,
+  ) {
+    return this.conversationsService.findOneForUser(id, userId);
   }
 
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
+    @Query('user_id', ParseIntPipe) userId: number,
     @Body() updateConversationDto: UpdateConversationDto,
   ) {
-    return this.conversationsService.update(id, updateConversationDto);
+    return this.conversationsService.update(id, updateConversationDto, userId);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.conversationsService.remove(id);
+  remove(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('user_id', ParseIntPipe) userId: number,
+  ) {
+    return this.conversationsService.remove(id, userId);
   }
 }

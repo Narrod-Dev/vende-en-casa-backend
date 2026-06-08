@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsInt,
@@ -27,7 +27,12 @@ export class CreateMessageDto {
   content: string;
 }
 
-export class UpdateMessageDto extends PartialType(CreateMessageDto) {
+export class UpdateMessageDto {
+  @IsString()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  content?: string;
+
   @IsBoolean()
   @IsOptional()
   @ApiProperty({ required: false, default: false })
