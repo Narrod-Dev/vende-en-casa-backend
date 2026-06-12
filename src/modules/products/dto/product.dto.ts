@@ -1,8 +1,9 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import {
   IsInt,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsPositive,
   IsString,
   MinLength,
@@ -45,11 +46,14 @@ export class CreateProductDto {
   @ApiProperty()
   price: number;
 
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(3)
-  @ApiProperty()
-  status: string;
-
 }
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
+export class UpdateProductDto extends PartialType(CreateProductDto) {
+// Permite actualizar el estado del producto (Sold,Reserved... etc)
+// Antes se solicitaba el status al crear el producto pero ya no era necesario
+// Ahora el backend asigna automaticamente "Available" al crear un producto
+// Este campo permitirá cambios de estado mediante PATCH luego de la creación del producto
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional()
+  status?: string;
+}
