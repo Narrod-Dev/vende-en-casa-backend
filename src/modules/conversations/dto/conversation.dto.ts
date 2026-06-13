@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsInt,
   IsNotEmpty,
@@ -17,11 +17,6 @@ export class CreateConversationDto {
   @IsNotEmpty()
   @ApiProperty()
   buyer_id: number;
-
-  @IsInt()
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  seller_id: number;
 }
-export class UpdateConversationDto extends PartialType(CreateConversationDto) {}
+
+export class UpdateConversationDto {}
