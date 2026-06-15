@@ -1,0 +1,5 @@
+$kind: http-request
+name: Eliminar
+url: http://localhost:3000/ratings/1
+method: DELETE
+order: 4423022899579324

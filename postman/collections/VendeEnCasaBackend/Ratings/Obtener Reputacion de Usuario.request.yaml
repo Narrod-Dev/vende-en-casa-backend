@@ -1,0 +1,5 @@
+$kind: http-request
+name: Obtener Reputacion de Usuario
+url: http://localhost:3000/productos
+method: GET
+order: 4249208607103244
