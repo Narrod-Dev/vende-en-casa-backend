@@ -1,0 +1,20 @@
+$kind: http-request
+name: Crear
+url: http://localhost:3000/api/v1/ratings
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"reviewer_id\": 1,\r
+
+    \    \"reviewee_id\": 6,\r
+
+    \    \"product_id\": 1,\r
+
+    \    \"score\": 5,\r
+
+    \    \"comment\": \"Excelente vendedor, la licuadora que tenía en su casa funciona perfectamente.\"\r
+
+    }"
+order: 1781481839816

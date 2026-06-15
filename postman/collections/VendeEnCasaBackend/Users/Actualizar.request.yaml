@@ -1,0 +1,12 @@
+$kind: http-request
+name: Actualizar
+url: http://localhost:3000/users/1
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"location\": \"Nueva Guinea, Campus Central\"\r
+
+    }"
+order: 4301658048434002

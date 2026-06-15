@@ -1,0 +1,14 @@
+$kind: http-request
+name: Actualizar
+url: http://localhost:3000/products
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"price\": 2200.00,\r
+
+    \    \"status\": \"Available\"\r
+
+    }"
+order: 4488182907610056

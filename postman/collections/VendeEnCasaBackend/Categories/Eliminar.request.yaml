@@ -1,0 +1,5 @@
+$kind: http-request
+name: Eliminar
+url: http://localhost:3000/categories/1
+method: DELETE
+order: 3143104666078910

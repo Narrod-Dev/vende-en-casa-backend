@@ -1,0 +1,14 @@
+$kind: http-request
+name: Crear
+url: http://localhost:3000/api/v1/categories
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"categoria\",\r
+
+    \    \"description\": \"Buen trato, aunque el sillón tenía un rasguño que no vi en las fotos.\"\r
+
+    }"
+order: 1781482306529

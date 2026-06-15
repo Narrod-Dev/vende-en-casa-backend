@@ -18,6 +18,14 @@ export class RatingsController {
         return this.ratingsService.findAll();
     }
 
+    // Endpoint de reputación sugerido
+    @Get('reputation/:userId')
+    getUserReputation(
+        @Param('userId', ParseIntPipe) userId: number,
+    ) {
+        return this.ratingsService.getUserReputation(userId);
+    }
+
     @Get(':id')
     findOne(@Param('id', ParseIntPipe) id: number) {
         return this.ratingsService.findOne(id);
