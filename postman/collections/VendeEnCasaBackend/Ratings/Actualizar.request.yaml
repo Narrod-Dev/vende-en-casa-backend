@@ -1,0 +1,14 @@
+$kind: http-request
+name: Actualizar
+url: http://localhost:3000/ratings
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"score\": 4,\r
+
+    \    \"comment\": \"Buen trato, aunque el sillón tenía un rasguño que no vi en las fotos.\"\r
+
+    }"
+order: 3896630658609367

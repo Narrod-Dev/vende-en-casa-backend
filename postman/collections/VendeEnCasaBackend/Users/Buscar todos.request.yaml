@@ -1,0 +1,5 @@
+$kind: http-request
+name: Buscar todos
+url: http://localhost:3000/users
+method: GET
+order: 4021122244229497

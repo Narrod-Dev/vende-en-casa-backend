@@ -1,0 +1,24 @@
+$kind: http-request
+name: Crear
+url: http://localhost:3000/products
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"seller_id\": 1,\r
+
+    \    \"category_id\": 1,\r
+
+    \    \"title\": \"Abanico de pedestal Sankey\",\r
+
+    \    \"description\": \"Abanico de 3 velocidades en excelente estado físico y funcional. Lo vendo porque pusimos aire acondicionado en la sala y este ya no lo ocupamos en casa.\",\r
+
+    \    \"condition\": \"Usado\",\r
+
+    \    \"price\": 850.00,\r
+
+    \    \"status\": \"Available\"\r
+
+    }"
+order: 1781482941997

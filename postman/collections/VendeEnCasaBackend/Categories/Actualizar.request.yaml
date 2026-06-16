@@ -1,0 +1,5 @@
+$kind: http-request
+name: Actualizar
+url: http://localhost:3000/categories/1
+method: PATCH
+order: 2621395253958634
