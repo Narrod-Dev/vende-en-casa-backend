@@ -17,7 +17,7 @@ export class CreateUserDto {
     @ApiProperty()
     password_hash: string;
 
-    @IsNotEmpty()
+    @IsString()
     @IsNotEmpty()
     @ApiProperty()
     location:string;
