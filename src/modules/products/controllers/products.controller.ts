@@ -4,6 +4,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
 import { User } from '../../auth/entities/user.entity';
+import { AuthPermission } from '../../auth/decorators/auth-permission.decorator';
+
 
 @ApiTags('Products')
 @Controller('products')
@@ -13,6 +15,7 @@ export class ProductsController {
   ) {}
 
   @Post()
+   @AuthPermission('create-product')
   create(
     @Body() createProductDto: CreateProductDto,
     @Req() req: Request,
@@ -22,11 +25,13 @@ export class ProductsController {
   }
 
   @Get()
+   @AuthPermission('read-product')
   findAll() {
     return this.productsService.findAll();
   }
 
   @Get(':id')
+   @AuthPermission('read-product')
   findOne(
     @Param('id', ParseIntPipe) id: number,
   ) {
@@ -34,6 +39,7 @@ export class ProductsController {
   }
 
   @Patch(':id')
+   @AuthPermission('update-product')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Req() req: Request,
@@ -44,6 +50,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+   @AuthPermission('delete-product')
   remove(
     @Param('id', ParseIntPipe) id: number,
     @Req() req: Request,
