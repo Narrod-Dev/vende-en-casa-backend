@@ -1,27 +1,31 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dto/category.dto';
-import { Auth } from '../../auth/decorators/auth.decorator';
-import { ValidRoles } from '../../auth/interfaces/valid-roles.interface';
+import { UserPermissionGuard } from '../../auth/guards/user-permission.guard';
+import { AuthPermission } from '../../auth/decorators/auth-permission.decorator';
 
 @ApiTags('Categories')
 @Controller('categories')
-@Auth(ValidRoles.admin)
+@UseGuards(UserPermissionGuard)
 export class CategoriesController {
     constructor(private readonly categoriesServices: CategoriesService) {}
 
     @Post()
+    @AuthPermission('create-category')
     create( @Body() createCategoryDto: CreateCategoryDto) {
         return this.categoriesServices.create(createCategoryDto);
     }
 
     @Get()
+    @AuthPermission('read-category')
+
     findAll() {
         return this.categoriesServices.findAll();
     }
 
     @Get(':id')
+    @AuthPermission('read-category')
     findOne( @Param( 'id', ParseIntPipe) id: number) {
         return this.categoriesServices.findOne(id);
     }
