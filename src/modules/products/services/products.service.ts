@@ -7,21 +7,29 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from '../entities/product.entity';
+import { User } from '../../auth/entities/user.entity';
 import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.interface';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, userId: number) {
+    const seller = await this.userRepository.findOneBy({ id: userId });
+    if (!seller)
+      throw new NotFoundException(`El vendedor con id ${userId} no existe.`);
+
     try {
-// Todo producto nuevo creado inicia con estado "Available"
       const product =
         this.productRepository.create({
           ...createProductDto,
+          seller_id: userId,
           status: 'Available',
         });
 
@@ -54,20 +62,14 @@ export class ProductsService {
 
   async update(
     id: number,
-    sellerId: number,
+    user: User,
     updateProductDto: UpdateProductDto,
   ) {
     const product = await this.findOne(id);
 
-// Solo el vendedor puede editar el producto
-// Esto simula un sistema de autenticación real
-// Si los ids no coinciden, significa que otro usuario esta
-// intentando modificar un producto que no le pertenece
-  if (product.seller_id !== sellerId) {
-    throw new ForbiddenException(
-      'No tienes permiso para editar este producto',
-    );
-  }
+    if (product.seller_id !== user.id && user.role.name !== ValidRoles.admin) {
+      throw new ForbiddenException('No tienes permiso para editar este producto');
+    }
 
     Object.assign(product, updateProductDto);
 
@@ -75,17 +77,15 @@ export class ProductsService {
   }
 
   async remove(
-    id: number, 
-    sellerId: number,
+    id: number,
+    user: User,
   ) {
     const product = await this.findOne(id);
-// Antes de eliminar el producto comprueba que el usuario
-// que realiza la solicitud sea el creador del mismo
-  if (product.seller_id !== sellerId) {
-    throw new ForbiddenException(
-      'No tienes permiso para eliminar este producto',
-    );
-  }
+
+    if (product.seller_id !== user.id && user.role.name !== ValidRoles.admin) {
+      throw new ForbiddenException('No tienes permiso para eliminar este producto');
+    }
+
     return this.productRepository.remove(product);
   }
 }

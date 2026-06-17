@@ -7,52 +7,53 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
+  Req,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { MessagesService } from '../services/messages.service';
 import { CreateMessageDto, UpdateMessageDto } from '../dto/message.dto';
-import { ApiTags } from '@nestjs/swagger'; // Importamos ApiTags
+import { ApiTags } from '@nestjs/swagger';
+import { User } from '../../auth/entities/user.entity';
 
-@ApiTags('Messages') // Agrupa este CRUD en la documentación de Swagger
+@ApiTags('Messages')
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Post()
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+  create(@Body() dto: CreateMessageDto, @Req() req: Request) {
+    const user = req.user as User;
+    return this.messagesService.create(dto, user.id);
   }
 
   @Get('conversation/:conversationId')
   findByConversation(
     @Param('conversationId', ParseIntPipe) conversationId: number,
-    @Query('user_id', ParseIntPipe) userId: number,
+    @Req() req: Request,
   ) {
-    return this.messagesService.findByConversation(conversationId, userId);
+    const user = req.user as User;
+    return this.messagesService.findByConversation(conversationId, user.id);
   }
 
   @Get(':id')
-  findOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('user_id', ParseIntPipe) userId: number,
-  ) {
-    return this.messagesService.findOneForUser(id, userId);
+  findOne(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const user = req.user as User;
+    return this.messagesService.findOneForUser(id, user.id);
   }
 
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Query('user_id', ParseIntPipe) userId: number,
+    @Req() req: Request,
     @Body() updateMessageDto: UpdateMessageDto,
   ) {
-    return this.messagesService.update(id, updateMessageDto, userId);
+    const user = req.user as User;
+    return this.messagesService.update(id, updateMessageDto, user.id);
   }
 
   @Delete(':id')
-  remove(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('user_id', ParseIntPipe) userId: number,
-  ) {
-    return this.messagesService.remove(id, userId);
+  remove(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const user = req.user as User;
+    return this.messagesService.remove(id, user.id);
   }
 }

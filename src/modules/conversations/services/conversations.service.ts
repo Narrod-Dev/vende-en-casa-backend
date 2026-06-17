@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../auth/entities/user.entity';
 import {
   CreateConversationDto,
   UpdateConversationDto,
@@ -25,35 +25,31 @@ export class ConversationsService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createConversationDto: CreateConversationDto) {
+  async create(dto: CreateConversationDto, userId: number) {
     try {
       const product = await this.productRepository.findOneBy({
-        id: createConversationDto.product_id,
+        id: dto.product_id,
       });
 
       if (!product) {
         throw new NotFoundException('Producto no encontrado');
       }
 
-      const buyer = await this.userRepository.findOneBy({
-        id: createConversationDto.buyer_id,
-      });
-
+      const buyer = await this.userRepository.findOneBy({ id: userId });
       if (!buyer) {
         throw new NotFoundException('Comprador no encontrado');
       }
 
-      if (product.seller_id === createConversationDto.buyer_id) {
+      if (product.seller_id === userId) {
         throw new ForbiddenException(
           'El vendedor no puede crear una conversacion consigo mismo',
         );
       }
 
-      // Cada chat se agrupa por producto y comprador; si ya existe, se reutiliza.
       const existingConversation = await this.conversationRepository.findOne({
         where: {
-          product_id: createConversationDto.product_id,
-          buyer_id: createConversationDto.buyer_id,
+          product_id: dto.product_id,
+          buyer_id: userId,
         },
       });
 
@@ -62,8 +58,8 @@ export class ConversationsService {
       }
 
       const conversation = this.conversationRepository.create({
-        product_id: createConversationDto.product_id,
-        buyer_id: createConversationDto.buyer_id,
+        product_id: dto.product_id,
+        buyer_id: userId,
         seller_id: product.seller_id,
       });
 

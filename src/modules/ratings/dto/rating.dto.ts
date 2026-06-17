@@ -10,19 +10,13 @@ import {
 export class CreateRatingDto{
     @IsInt()
     @IsPositive()
-    @IsOptional()
-    @ApiProperty()
-    reviewer_id: number;
-
-    @IsInt()
-    @IsPositive()
-    @IsOptional()
+    @IsNotEmpty()
     @ApiProperty()
     reviewee_id: number;
     
     @IsInt()
     @IsPositive()
-    @IsOptional()
+    @IsNotEmpty()
     @ApiProperty()
     product_id: number;
 

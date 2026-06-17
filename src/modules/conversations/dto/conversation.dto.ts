@@ -11,12 +11,6 @@ export class CreateConversationDto {
   @IsNotEmpty()
   @ApiProperty()
   product_id: number;
-
-  @IsInt()
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  buyer_id: number;
 }
 
 export class UpdateConversationDto {}

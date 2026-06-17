@@ -7,14 +7,16 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  Query,
+  Req,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import { ConversationsService } from '../services/conversations.service';
 import {
   CreateConversationDto,
   UpdateConversationDto,
 } from '../dto/conversation.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { User } from '../../auth/entities/user.entity';
 
 @ApiTags('Conversations')
 @Controller('conversations')
@@ -22,37 +24,36 @@ export class ConversationsController {
   constructor(private readonly conversationsService: ConversationsService) {}
 
   @Post()
-  create(@Body() createConversatonDto: CreateConversationDto) {
-    return this.conversationsService.create(createConversatonDto);
+  create(@Body() dto: CreateConversationDto, @Req() req: Request) {
+    const user = req.user as User;
+    return this.conversationsService.create(dto, user.id);
   }
 
-  @Get('user/:userId')
-  findByUser(@Param('userId', ParseIntPipe) userId: number) {
-    return this.conversationsService.findByUser(userId);
+  @Get()
+  findByUser(@Req() req: Request) {
+    const user = req.user as User;
+    return this.conversationsService.findByUser(user.id);
   }
 
   @Get(':id')
-  findOne(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('user_id', ParseIntPipe) userId: number,
-  ) {
-    return this.conversationsService.findOneForUser(id, userId);
+  findOne(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const user = req.user as User;
+    return this.conversationsService.findOneForUser(id, user.id);
   }
 
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Query('user_id', ParseIntPipe) userId: number,
-    @Body() updateConversationDto: UpdateConversationDto,
+    @Req() req: Request,
+    @Body() dto: UpdateConversationDto,
   ) {
-    return this.conversationsService.update(id, updateConversationDto, userId);
+    const user = req.user as User;
+    return this.conversationsService.update(id, dto, user.id);
   }
 
   @Delete(':id')
-  remove(
-    @Param('id', ParseIntPipe) id: number,
-    @Query('user_id', ParseIntPipe) userId: number,
-  ) {
-    return this.conversationsService.remove(id, userId);
+  remove(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const user = req.user as User;
+    return this.conversationsService.remove(id, user.id);
   }
 }

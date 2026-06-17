@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthModule } from './modules/auth/strategies/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { UsersController } from './modules/users/controllers/users.controller';
 import { ProductsModule } from './modules/products/products.module';
@@ -9,16 +11,17 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConversationsModule } from './modules/conversations/conversations.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
+import { JwtGlobalGuard } from './common/guards/jwt-global.guard';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
     UsersModule, 
     ProductsModule, 
     MessagesModule, 
     CategoriesModule, 
     RatingsModule,
-    
-    ConfigModule.forRoot(),
 
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -36,6 +39,11 @@ import { ProductImagesModule } from './modules/product-images/product-images.mod
     ProductImagesModule,
   ],
   controllers: [UsersController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtGlobalGuard,
+    },
+  ],
 })
 export class AppModule {}
