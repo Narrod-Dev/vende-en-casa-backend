@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -25,21 +25,24 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { password, roleId, ...userData } = createUserDto;
+      // para verificar que no exista otro usuario con el mismo correo
+  const existingUser = await this.userRepository.findOne({
+    where: { email: createUserDto.email },
+  });
 
-    const foundRole = roleId
-      ? await this.roleRepository.findOneBy({ id: roleId })
-      : await this.getDefaultRole();
-
-    if (!foundRole)
-      throw new NotFoundException(`El rol ${roleId ? `con id ${roleId}` : 'por defecto "User"'} no existe.`);
-
+  if (existingUser) {
+    throw new BadRequestException(
+      'El correo ya esta registrado.',
+    );
+  }
+// La contraseña debe llegar cifrada desde AuthModule
     const user = this.userRepository.create({
-      ...userData,
-      password_hash: bcrypt.hashSync(password, 10),
-      role: foundRole,
-    });
+      ...createUserDto,
 
+      role: 'USER',
+// se asegura que el usuario este activo al registrarse
+      is_active: true,
+    });
     return await this.userRepository.save(user);
   }
 
@@ -54,21 +57,19 @@ export class UsersService {
     }
     return user;
   }
-
+//permite buscar usuario por correo electronico  
+async findByEmail(email: string): Promise<User | null> {
+  return await this.userRepository.findOne({
+    where: { email },
+  });
+}
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
-    const { password, roleId, ...userData } = updateUserDto;
-
-    if (password) {
-      (userData as any).password_hash = bcrypt.hashSync(password, 10);
-    }
-
-    if (roleId) {
-      const role = await this.roleRepository.findOneBy({ id: roleId });
-      if (role) user.role = role;
-    }
-
-    Object.assign(user, userData);
+// Evita que el rol y la contraseña se modifiquen desde UsersModule
+// Estos cambios deben gestionarse mediante AuthModule
+    delete updateUserDto.role;
+    delete updateUserDto.password_hash;
+    Object.assign(user, updateUserDto);
     return await this.userRepository.save(user);
   }
 
