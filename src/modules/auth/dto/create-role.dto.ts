@@ -1,0 +1,15 @@
+import { IsArray, IsOptional, IsString, MinLength } from 'class-validator';
+
+export class CreateRoleDto {
+  @IsString()
+  @MinLength(2)
+  name: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @IsArray()
+  @IsOptional()
+  permissionIds?: number[];
+}

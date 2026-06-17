@@ -1,7 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
+import * as bcrypt from 'bcrypt';
+import { User } from '../../auth/entities/user.entity';
+import { Role } from '../../auth/entities/role.entity';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.interface';
 import { CreateUserDto, UpdateUserDto } from '../dto/user.dto';
 
 @Injectable()
@@ -9,7 +12,17 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
   ) {}
+
+  private async getDefaultRole(): Promise<Role> {
+    let role = await this.roleRepository.findOneBy({ name: ValidRoles.user });
+    if (role) return role;
+
+    role = this.roleRepository.create({ name: ValidRoles.user, description: 'Usuario' });
+    return this.roleRepository.save(role);
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
       // para verificar que no exista otro usuario con el mismo correo

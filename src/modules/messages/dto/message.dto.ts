@@ -15,12 +15,6 @@ export class CreateMessageDto {
   @ApiProperty()
   conversation_id: number;
 
-  @IsInt()
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
-  sender_id: number;
-
   @IsString()
   @IsNotEmpty()
   @ApiProperty()

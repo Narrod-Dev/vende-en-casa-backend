@@ -19,15 +19,15 @@ export class MessagesService {
     private readonly conversationRepository: Repository<Conversation>,
   ) {}
 
-  async create(createMessageDto: CreateMessageDto): Promise<Message> {
+  async create(dto: CreateMessageDto, userId: number): Promise<Message> {
     try {
-      // Antes de guardar, confirmamos que el usuario sea parte de la conversacion.
-      await this.validateConversationParticipant(
-        createMessageDto.conversation_id,
-        createMessageDto.sender_id,
-      );
+      await this.validateConversationParticipant(dto.conversation_id, userId);
 
-      const message = this.messageRepository.create(createMessageDto);
+      const message = this.messageRepository.create({
+        conversation_id: dto.conversation_id,
+        sender_id: userId,
+        content: dto.content,
+      });
       return await this.messageRepository.save(message);
     } catch (error) {
       if (

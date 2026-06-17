@@ -4,7 +4,7 @@ import { ConversationsController } from './controllers/conversations.controller'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Conversation } from './entities/conversation.entity';
 import { Product } from '../products/entities/product.entity';
-import { User } from '../users/entities/user.entity';
+import { User } from '../auth/entities/user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Conversation, Product, User])],

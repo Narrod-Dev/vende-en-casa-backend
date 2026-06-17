@@ -1,41 +1,40 @@
-import { ApiProperty, PartialType } from "@nestjs/swagger";
-import { 
-    IsInt, 
-    IsNotEmpty, 
-    IsOptional, 
-    IsPositive, 
-    IsString } 
-    from "class-validator";
+import { ApiProperty, ApiPropertyOptional, OmitType, PartialType } from '@nestjs/swagger';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
-export class CreateRatingDto{
-    @IsInt()
-    @IsPositive()
-    @IsOptional()
-    @ApiProperty()
-    reviewer_id: number;
+export class CreateRatingDto {
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
+  @ApiProperty()
+  reviewee_id: number;
 
-    @IsInt()
-    @IsPositive()
-    @IsOptional()
-    @ApiProperty()
-    reviewee_id: number;
-    
-    @IsInt()
-    @IsPositive()
-    @IsOptional()
-    @ApiProperty()
-    product_id: number;
+  @IsInt()
+  @IsPositive()
+  @IsNotEmpty()
+  @ApiProperty()
+  product_id: number;
 
-    @IsInt()
-    @IsPositive()
-    @IsNotEmpty()
-    @ApiProperty()
-    score: number;
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  @IsNotEmpty()
+  @ApiProperty()
+  score: number;
 
-    @IsString()
-    @IsOptional()
-    @ApiProperty()
-    comment: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  comment: string;
 }
 
-export class UpdateRatingDto extends PartialType(CreateRatingDto){}
+export class UpdateRatingDto extends PartialType(
+  OmitType(CreateRatingDto, ['reviewee_id', 'product_id'] as const),
+) {}

@@ -2,9 +2,12 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from 
 import { ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dto/category.dto';
+import { Auth } from '../../auth/decorators/auth.decorator';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.interface';
 
 @ApiTags('Categories')
 @Controller('categories')
+@Auth(ValidRoles.admin)
 export class CategoriesController {
     constructor(private readonly categoriesServices: CategoriesService) {}
 

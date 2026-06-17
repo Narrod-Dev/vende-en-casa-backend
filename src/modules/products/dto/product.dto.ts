@@ -14,12 +14,6 @@ export class CreateProductDto {
   @IsPositive()
   @IsNotEmpty()
   @ApiProperty()
-  seller_id: number;
-
-  @IsInt()
-  @IsPositive()
-  @IsNotEmpty()
-  @ApiProperty()
   category_id: number;
 
   @IsString()

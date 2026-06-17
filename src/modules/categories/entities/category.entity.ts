@@ -12,6 +12,6 @@ export class Category {
     @Column({ type: 'varchar', length: 255, unique: true })
     name: string;
 
-    @Column({ type: 'text' })
+    @Column({ type: 'text', nullable: true })
     description: string;
 }
