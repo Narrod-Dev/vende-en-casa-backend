@@ -26,7 +26,7 @@ export class Conversation {
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 
-  @ManyToOne(() => Product, { eager: true })
+  @ManyToOne(() => Product, { eager: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'product_id' })
   product: Product;
 

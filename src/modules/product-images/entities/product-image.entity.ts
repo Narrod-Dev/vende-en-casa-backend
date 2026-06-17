@@ -21,7 +21,7 @@ export class ProductImage {
   @Column({ type: 'boolean', default: false })
   is_main: boolean;
 
-  @ManyToOne( () => Product, { eager: true })
+  @ManyToOne( () => Product, { eager: true, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'product_id'})
   product: Product;
 }

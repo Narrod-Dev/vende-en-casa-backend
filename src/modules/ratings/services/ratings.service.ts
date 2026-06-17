@@ -84,7 +84,7 @@ export class RatingsService {
     async update(id: number, updateRatingDto: UpdateRatingDto, user: User): Promise<Rating> {
         const rating = await this.findOne(id);
 
-        if (rating.reviewer_id !== user.id && user.role.name !== ValidRoles.admin) {
+        if (rating.reviewer_id !== user.id && user.role.name.toLowerCase() !== ValidRoles.admin) {
             throw new ForbiddenException('No tienes permiso para editar esta calificación');
         }
 
@@ -95,7 +95,7 @@ export class RatingsService {
     async remove(id: number, user: User): Promise<void> {
         const rating = await this.findOne(id);
 
-        if (rating.reviewer_id !== user.id && user.role.name !== ValidRoles.admin) {
+        if (rating.reviewer_id !== user.id && user.role.name.toLowerCase() !== ValidRoles.admin) {
             throw new ForbiddenException('No tienes permiso para eliminar esta calificación');
         }
 

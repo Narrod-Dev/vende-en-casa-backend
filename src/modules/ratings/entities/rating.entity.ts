@@ -40,7 +40,7 @@ export class Rating {
     @JoinColumn({ name: 'reviewee_id' })
     reviewee: User;
 
-    @ManyToOne( () => Product, { eager: true })
+    @ManyToOne( () => Product, { eager: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'product_id' })
     product: Product;
 }

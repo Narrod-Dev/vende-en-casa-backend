@@ -3,6 +3,7 @@ import {
     InternalServerErrorException,
     NotFoundException,
     ForbiddenException,
+    ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -67,7 +68,7 @@ export class ProductsService {
   ) {
     const product = await this.findOne(id);
 
-    if (product.seller_id !== user.id && user.role.name !== ValidRoles.admin) {
+    if (product.seller_id !== user.id && user.role.name.toLowerCase() !== ValidRoles.admin) {
       throw new ForbiddenException('No tienes permiso para editar este producto');
     }
 
@@ -82,10 +83,17 @@ export class ProductsService {
   ) {
     const product = await this.findOne(id);
 
-    if (product.seller_id !== user.id && user.role.name !== ValidRoles.admin) {
+    if (product.seller_id !== user.id && user.role.name.toLowerCase() !== ValidRoles.admin) {
       throw new ForbiddenException('No tienes permiso para eliminar este producto');
     }
 
-    return this.productRepository.remove(product);
+    try {
+      return await this.productRepository.remove(product);
+    } catch (error) {
+      if (error.code === '23503') {
+        throw new ConflictException('No se puede eliminar el producto porque tiene conversaciones o calificaciones asociadas.');
+      }
+      throw error;
+    }
   }
 }
